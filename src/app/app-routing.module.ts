@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
@@ -8,17 +9,22 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'new-student',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-    path: 'view-student',
+    path: 'view-student/:nctrl',
     loadChildren: () => import('./view-student/view-student.module').then( m => m.ViewStudentPageModule)
   },
   {
     path: 'new-student',
     loadChildren: () => import('./new-student/new-student.module').then( m => m.NewStudentPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+
 
 ];
 

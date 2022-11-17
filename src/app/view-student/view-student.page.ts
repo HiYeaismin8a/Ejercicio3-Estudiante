@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Student } from '../models/student';
 import { StudentService } from '../services/student.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-
-
 
 @Component({
   selector: 'app-view-student',
@@ -16,15 +15,14 @@ export class ViewStudentPage implements OnInit {
   public student: Student;
 
   constructor(private studentService: StudentService, private activatedRoute: ActivatedRoute) {
-    
+
   }
 
   ngOnInit() {
     // let cn;
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.student = this.studentService.getStudentByControlNumber(params.cn);
+    this.activatedRoute.params.subscribe((params) => {
+      this.student = this.studentService.getStudentByControlNumber(params.nctrl);
     });
-    // console.log(cn);
   }
 
 }

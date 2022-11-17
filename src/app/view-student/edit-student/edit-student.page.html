@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-grid>
-    <form [formGroup]="formulario" (ngSubmit)="registrar()">
+    <form [formGroup]="formulario" (ngSubmit)="actualizar()">
       <ion-row>
         <!-- número de control-->
         <ion-col>
@@ -198,7 +198,7 @@
       <ion-row>
         <div>
           <ion-button type="submit" [disabled]="!formulario.valid">
-            Registrar
+            Actualizar
           </ion-button>
         </div>
       </ion-row>

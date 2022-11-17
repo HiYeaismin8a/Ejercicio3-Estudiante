@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -6,18 +7,18 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { FotoService } from '../services/foto.service';
-import { Router } from '@angular/router';
-import { Student } from '../models/student';
-import { StudentService } from '../services/student.service';
+import { FotoService } from './../../services/foto.service';
+import { Student } from 'src/app/models/student';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
-  selector: 'app-new-student',
-  templateUrl: './new-student.page.html',
-  styleUrls: ['./new-student.page.scss'],
+  selector: 'app-edit-student',
+  templateUrl: './edit-student.page.html',
+  styleUrls: ['./edit-student.page.scss'],
 })
-export class NewStudentPage implements OnInit {
-  activar = false;
+export class EditStudentPage implements OnInit {
+  nctrl = '';
+
   public student: Student = {
     controlnumber: '',
     age: 0,
@@ -33,12 +34,17 @@ export class NewStudentPage implements OnInit {
 
   constructor(
     private studenteService: StudentService,
-    private fb: FormBuilder,
-    private fotoService: FotoService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe((params) => {
+      this.nctrl = params.nctrl
+      this.student = this.studenteService.getStudentByControlNumber(
+        params.nctrl
+      );
+    });
     this.formulario = new FormGroup({
       controlnumber: new FormControl(this.student.controlnumber, [
         Validators.required,
@@ -113,22 +119,13 @@ export class NewStudentPage implements OnInit {
       ],
       career: [{ type: 'required', message: 'Carrera Obligatoria' }],
     };
+    console.log(this.formulario.value)
   }
 
-  activarBoton(): Boolean {
-    console.log(Object.entries(this.validationMessages).length);
-    if (Object.entries(this.validationMessages).length === 0) {
-      console.log(this.activar);
-      return false;
-    }
-    this.activar = true;
-    return true;
-  }
-
-  registrar() {
+  actualizar() {
     if (this.formulario.valid) {
-      this.studenteService.newStudent(this.formulario.value);
-      this.router.navigate(['']);
+      this.studenteService.setStudentByNctrl(this.nctrl, this.formulario.value);
+      this.router.navigate(['/view-student', this.nctrl]);
     }
   }
 }
